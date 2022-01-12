@@ -300,6 +300,10 @@ OSApp *osapp_init_imp(
     delegate->func_OnExecutionEnd = NULL;
     delegate->OnThemeChanged = NULL;
     [NSApp setDelegate:delegate];
+    // without the following calls the minimum apps like Hello or Fractals have no Apple menu on macOS and 
+    // the window is in the back covered by all other runnint applications and not visible in the window list
+    [NSApp setActivationPolicy:NSApplicationActivationPolicyRegular];
+	[NSApp activateIgnoringOtherApps:YES];
     return (OSApp*)app;
 }
 
