@@ -303,7 +303,8 @@ OSView *osview_create(const uint32_t flags)
         GtkWidget *scroll = gtk_scrolled_window_new(NULL, NULL);
         GtkWidget *scrolled = NULL;
 
-    #if GTK_CHECK_VERSION(3, 8, 0)
+    #if 0 // GTK_CHECK_VERSION(3, 8, 0)
+        // RK: if enabled clicking on the listbox does nothing; I have GTK 3.10.8
         scrolled = scroll;
     #else
         scrolled = gtk_event_box_new();
@@ -312,24 +313,28 @@ OSView *osview_create(const uint32_t flags)
     #endif
 
         view->area = widget;
-        gtk_widget_show(view->area);
+        gtk_widget_show(widget);
         _oscontrol_init(&view->control, ekGUI_COMPONENT_CUSTOMVIEW, scrolled, scrolled, FALSE);
         gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scroll), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 
     #if GTK_CHECK_VERSION(3, 8, 0)
-        gtk_container_add(GTK_CONTAINER(scroll), view->area);
+        gtk_container_add(GTK_CONTAINER(scroll), widget);
     #else
-        gtk_scrolled_window_add_with_viewport(GTK_SCROLLED_WINDOW(scroll), view->area);
+        gtk_scrolled_window_add_with_viewport(GTK_SCROLLED_WINDOW(scroll), widget);
     #endif
 
         view->hadjust = gtk_scrolled_window_get_hadjustment(GTK_SCROLLED_WINDOW(scroll));
         view->vadjust = gtk_scrolled_window_get_vadjustment(GTK_SCROLLED_WINDOW(scroll));
 
         {
+#if 0
+            // RK: if enabled the scroll bars don't work anymore but instead the listbox item is selected
+            // when clicking on the scrollbar
             GtkWidget *vscroll = gtk_scrolled_window_get_vscrollbar(GTK_SCROLLED_WINDOW(scroll));
             GtkWidget *hscroll = gtk_scrolled_window_get_hscrollbar(GTK_SCROLLED_WINDOW(scroll));
             g_signal_connect(G_OBJECT(vscroll), "button-press-event", G_CALLBACK(i_OnPressed), view);
             g_signal_connect(G_OBJECT(hscroll), "button-press-event", G_CALLBACK(i_OnPressed), view);
+#endif
             g_signal_connect(G_OBJECT(scrolled), "button-press-event", G_CALLBACK(i_OnPressed), view);
         }
 
@@ -508,7 +513,7 @@ void osview_OnNotify(OSView *view, Listener *listener)
 
 static bool_t i_IS_SCROLLED_WINDOW(GtkWidget *widget)
 {
-#if GTK_CHECK_VERSION(3, 8, 0)
+#if 0 // GTK_CHECK_VERSION(3, 8, 0)
     return GTK_IS_SCROLLED_WINDOW(widget);
 #else
 
