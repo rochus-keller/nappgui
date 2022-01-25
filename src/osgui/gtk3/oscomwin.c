@@ -65,7 +65,8 @@ const char_t *oscomwin_file(OSWindow *parent, const char_t **ftypes, const uint3
 
     if (!dirmode && size > 0)
     {
-        for (uint32_t i = 0; i < size; ++i)
+        uint32_t i;
+        for (i = 0; i < size; ++i)
         {
             String *pattern = str_printf("*.%s", ftypes[i]);
             GtkFileFilter *filter = gtk_file_filter_new();
