@@ -1,0 +1,24 @@
+# see https://github.com/rochus-keller/BUSY/
+
+let nrc : LuaScript {
+	.script = root_source_dir + ./qmake/execute.lua
+	.args += [
+		tostring( root_build_dir + relpath() + ../../nrc )
+		"-dc"
+		tostring(abspath( ./res/all ))
+		tostring( root_build_dir + relpath() + ./all.c )
+	]
+}
+
+let die * : Executable {
+	let dir = root_build_dir + relpath()
+	.sources = [ 
+		./main.c
+		./dgui.c
+		../casino/ddraw.c
+		dir + ./all.c
+	]
+	.include_dirs += [ dir ../casino ]
+	.deps = [ ^static_lib nrc ]
+	.configs += [ ^use_nappgui_static ]
+}

@@ -1,0 +1,37 @@
+# see https://github.com/rochus-keller/BUSY/
+
+subdir res
+
+let sources * : SourceSet {
+	.sources = [
+		./gui.cpp
+		./button.c 
+		./combo.c 
+		./component.c 
+		./comwin.c 
+		./drawctrl.c 
+		./edit.c 
+		./gbind.c 
+		./globals.c 
+		./imageview.c 
+		./label.c 
+		./layout.c 
+		./listbox.c 
+		./menu.c 
+		./menuitem.c 
+		./panel.c 
+		./popup.c 
+		./progress.c 
+		./slider.c 
+		./splitview.c 
+		./tableview.c 
+		./textview.c 
+		./updown.c 
+		./view.c 
+		./window.c 
+		./res/res_assert/res_assert.c
+	]
+	.configs += ^main_config;
+	.include_dirs += ./res/res_assert
+}
+

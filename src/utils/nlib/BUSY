@@ -1,0 +1,13 @@
+# see https://github.com/rochus-keller/BUSY/
+
+let sources * : SourceSet {
+	.sources = [
+	    ./bnfparser.c
+		./msgparser.c
+		./nglob.c
+		./nrclib.c
+		./resgen.c
+		./ssh.c
+	]
+	.configs += ^main_config
+}

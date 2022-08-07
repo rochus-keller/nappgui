@@ -1,0 +1,30 @@
+# see https://github.com/rochus-keller/BUSY/
+
+subdir src
+
+# for clients using the shared lib version of nappgui
+let use_nappgui* = src.use_nappgui
+
+# for clients using the static lib version of nappgui
+let use_nappgui_static* = src.use_nappgui_static
+
+# build and use the shared library version of nappgui
+let shared_lib* = src.shared_lib
+
+# build and use the static library version of nappgui
+let static_lib* = src.static_lib
+
+# build and use the nrc utility application of nappgui
+let nrc* = src.nrc
+
+# this is the default build which builds everything
+let all! : Group {
+	.deps = [
+		shared_lib
+		static_lib
+		nrc
+		src.demos
+	]
+}
+
+

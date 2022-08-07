@@ -1,0 +1,9 @@
+# see https://github.com/rochus-keller/BUSY/
+
+let sources * : SourceSet {
+	.sources = [
+		./bstdimp.c 
+		./bmem_unix.c 
+	]
+	.configs += [ ^main_config ]
+}

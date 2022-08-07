@@ -12,7 +12,7 @@ QT       -= core gui
 TARGET = NAppGUI
 TEMPLATE = lib
 
-INCLUDEPATH += ../src/osbs ../src/sewer ../src/draw2d ../src/geom2d ../src/gui ../src/osgui ../src/core ../src/osapp 
+INCLUDEPATH += ../src/osbs ../src/sewer ../src/draw2d ../src/geom2d ../src/gui ../src/osgui ../src/core ../src/osapp ../src/gui/res/res_assert
 DEFINES += NAPPGUI_LIBRARY CMAKE_RELEASE NAPPGUI_BUILD_DIR NAPPGUI_SOURCE_DIR NAPPGUI_BUILD
 CONFIG += object_parallel_to_source #https://wiki.qt.io/Undocumented_QMake; if your version doesn't support, rename osbs/unix/sinfo.c and bsocket.c
 
@@ -102,7 +102,7 @@ SOURCES += \
     ../src/sewer/qsort.c \
     ../src/sewer/types.c \
     ../src/sewer/unicode.c \
-	res_assert.c
+	../src/gui/res/res_assert/res_assert.c
 
 HEADERS +=  \
     ../src/core/array.h \

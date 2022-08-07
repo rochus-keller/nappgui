@@ -13,7 +13,7 @@
 #ifndef __BASEARCH_HXX__
 #define __BASEARCH_HXX__
 
-#if defined (_WINDOWS)
+#if defined (_WIN32)
 
     #if defined (_MSC_VER) && _MSC_VER <= 1500
     #define __STDC_LIMIT_MACROS
