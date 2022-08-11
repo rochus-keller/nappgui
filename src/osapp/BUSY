@@ -12,15 +12,15 @@ let sources * : SourceSet {
 	.include_dirs += .
 	
 	if target_os == `linux {
-		.configs += [ ^gtk_config ]
+		.configs += ^gtk_config; 
 		.sources += ./gtk3/osapp_gtk.c
 		.include_dirs += ../osgui/gtk3
 	}else if target_os == `macos {
-		.configs += [ ^osx_config ]
+		.configs += ^osx_config;
 		.sources += ./osx/osapp_osx.m
 		.include_dirs += ../osgui/osx
 	}else if target_os == `win32 {
-		.configs += [ ^win_config ]
+		.configs += ^win_config;
 		.sources += ./win/osapp_win.c
 		.include_dirs += ../osgui/win
 	}else {

@@ -50,7 +50,7 @@ let link_gtk : Config {
 
 #this is used to compile the gtk source files of nappgui and link the shared library version
 let gtk_config - : Config {
-	.configs += [ link_gtk ]
+	.configs += link_gtk;
 	.defines += "__GTK3__"
 	.include_dirs = [
 		//usr/include/cairo 
@@ -144,7 +144,7 @@ let shared_lib* : Library {
 # in case of static lib additional configs such as gtk_app_full are also required
 let use_nappgui * : Config {
 	.include_dirs += [ ./geom2d ./core ./osbs ./sewer ./draw2d ./osgui ./gui ./osapp ]
-	.defines += [ "CMAKE_RELEASE" ]
+	.defines += "CMAKE_RELEASE"
 	.configs += basic_linker_config
 }
 

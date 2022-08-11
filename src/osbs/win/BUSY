@@ -10,5 +10,5 @@ let sources * : SourceSet {
 		./btime.c 
 		./sinfo.c 
 	]
-	.configs += [ ^main_config ]
+	.configs += ^main_config
 }

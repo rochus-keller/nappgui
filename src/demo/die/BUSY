@@ -20,5 +20,5 @@ let die * : Executable {
 	]
 	.include_dirs += [ dir ../casino ]
 	.deps = [ ^static_lib nrc ]
-	.configs += [ ^use_nappgui_static ]
+	.configs += ^use_nappgui_static
 }

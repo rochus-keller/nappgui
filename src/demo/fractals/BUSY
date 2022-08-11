@@ -4,6 +4,6 @@ let fractals * : Executable {
 	.sources = [ 
 		./fractals.c 
 	]
-	.deps = [ ^static_lib ]
-	.configs += [ ^use_nappgui_static ]
+	.deps += ^static_lib;
+	.configs += ^use_nappgui_static
 }

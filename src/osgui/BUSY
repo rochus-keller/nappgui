@@ -11,11 +11,11 @@ let sources * : SourceSet {
 	]
 	.configs += ^main_config
 	if target_os == `linux {
-		.deps += [ gtk3.sources ]
+		.deps += gtk3.sources
 	}else if target_os == `win32 {
-		.deps += [ win.sources ]
+		.deps += win.sources
 	}else if target_os == `macos {
-		.deps += [ osx.sources ]
+		.deps += osx.sources
 	}else {
 		error("target os not supported")
 	}

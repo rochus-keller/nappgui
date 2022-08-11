@@ -5,5 +5,5 @@ let sources * : SourceSet {
 		./bstdimp.c 
 		./bmem_unix.c 
 	]
-	.configs += [ ^main_config ]
+	.configs += ^main_config
 }
