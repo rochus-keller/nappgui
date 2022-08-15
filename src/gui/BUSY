@@ -8,6 +8,7 @@ let nrc : LuaScript {
 		tostring(abspath( ./res/res_assert ))
 		tostring( root_build_dir + relpath() + ./res_assert.c )
 	]
+	.deps += ^nrc
 }
 
 let sources * : SourceSet {
@@ -40,7 +41,7 @@ let sources * : SourceSet {
 		./window.c 
 		dir + ./res_assert.c
 	]
-	.deps += [ ^nrc nrc ]
+	.deps += nrc;
 	.configs += ^main_config;
 	.include_dirs += dir
 }
