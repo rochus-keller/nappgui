@@ -105,7 +105,6 @@ subdir sewer
 subdir osbs
 subdir osgui
 subdir osapp
-subdir gui
 subdir utils
 
 ### this is the deployable nrc application of nappgui
@@ -119,6 +118,8 @@ let nrc * : Executable {
 	.configs += use_nappgui
 }
 
+subdir gui
+
 let all_lib_sources : Group {
 	.deps = [
 		core.sources
@@ -128,7 +129,6 @@ let all_lib_sources : Group {
 		osbs.sources
 		osgui.sources
 		osapp.sources
-		nrc
 		gui.sources
 	]
 }
@@ -167,7 +167,6 @@ let static_gui_lib* : Library {
 	.deps = [
 		osgui.sources
 		osapp.sources
-		nrc
 		gui.sources
 	]
 }

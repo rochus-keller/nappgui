@@ -40,7 +40,7 @@ let sources * : SourceSet {
 		./window.c 
 		dir + ./res_assert.c
 	]
-	.deps += nrc;
+	.deps += [ ^nrc nrc ]
 	.configs += ^main_config;
 	.include_dirs += dir
 }
