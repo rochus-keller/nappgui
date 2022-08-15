@@ -1,0 +1,27 @@
+# see https://github.com/rochus-keller/BUSY/
+
+let sources * : SourceSet {
+	.sources = [
+    ./core.cpp 
+    ./event.cpp 
+    ./array.c 
+    ./bhash.c 
+    ./buffer.c 
+    ./clock.c 
+    ./date.c 
+    ./dbind.c 
+    ./heap.c 
+    ./hfile.c 
+    ./keybuf.c 
+    ./lex.c 
+    ./nfa.c 
+    ./obj.c 
+    ./rbtree.c 
+    ./regex.c 
+    ./respack.c 
+    ./stream.c 
+    ./strings.c 
+    ./tfilter.c 
+	]
+	.configs += ^main_config
+}

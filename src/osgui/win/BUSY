@@ -1,0 +1,34 @@
+# see https://github.com/rochus-keller/BUSY/
+
+let sources * : SourceSet {
+	.sources = [
+		./oscontrol.cpp 
+		./osdrawctrl.cpp 
+		./osgui_win.cpp 
+		./osview.cpp 
+		./osbutton.c 
+		./oscombo.c 
+		./oscomwin.c 
+		./osedit.c 
+		./osglobals.c 
+		./osimglist.c 
+		./oslabel.c 
+		./oslistener.c 
+		./osmenu.c 
+		./osmenuitem.c 
+		./ospanel.c 
+		./ospopup.c 
+		./osprogress.c 
+		./osscroll.c 
+		./osslider.c 
+		./ossplit.c 
+		./osstyleXP.c 
+		./ostext.c 
+		./ostooltip.c 
+		./osupdown.c 
+		./oswindow.c 
+	]
+	.configs += [ ^main_config ^win_config ]
+	.include_dirs += ../../draw2d/win
+}
+

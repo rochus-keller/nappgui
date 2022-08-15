@@ -1,0 +1,12 @@
+# see https://github.com/rochus-keller/BUSY/
+
+let sources * : SourceSet {
+	.sources = [
+		./dctx_win.cpp 
+		./draw2d_win.cpp 
+		./osfont.cpp 
+		./osimage.cpp 
+	]
+	.configs += [ ^main_config ^win_config ]
+}
+

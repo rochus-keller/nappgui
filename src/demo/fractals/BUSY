@@ -1,0 +1,9 @@
+# see https://github.com/rochus-keller/BUSY/
+
+let fractals * : Executable {
+	.sources = [ 
+		./fractals.c 
+	]
+	.deps += ^static_all_lib;
+	.configs += ^use_nappgui_static
+}

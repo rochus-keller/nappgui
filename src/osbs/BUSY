@@ -1,0 +1,27 @@
+# see https://github.com/rochus-keller/BUSY/
+
+subdir linux
+subdir osx
+subdir unix
+subdir win
+
+let sources * : SourceSet {
+	.sources = [
+		./osbs.cpp 
+		./log.c 
+		./bsocket.c 
+	]
+	.configs += ^main_config
+	
+	if target_os == `linux {
+		.sources += ./linux/sinfo.c
+		.deps += unix.sources
+	}else if target_os == `macos {
+		.sources += ./osx/sinfo.m
+		.deps += unix.sources
+	}else if target_os == `win32 {
+		.deps += win.sources
+	}else {
+		error("target os not supported")
+	}
+}

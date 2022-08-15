@@ -25,7 +25,7 @@
 #if defined __LINUX__
 #include <sys/syscall.h>
 long syscall(long number, ...);
-int usleep(int usec);
+//int usleep(int usec);
 #endif
 
 int pthread_tryjoin_np(pthread_t thread, void **retval);

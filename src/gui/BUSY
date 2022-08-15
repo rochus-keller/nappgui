@@ -1,0 +1,47 @@
+# see https://github.com/rochus-keller/BUSY/
+
+let nrc : LuaScript {
+	.script = root_source_dir + ./src/execute.lua
+	.args += [
+		tostring( root_build_dir + ./src/nrc )
+		"-dc"
+		tostring(abspath( ./res/res_assert ))
+		tostring( root_build_dir + relpath() + ./res_assert.c )
+	]
+}
+
+let sources * : SourceSet {
+	let dir = root_build_dir + relpath()
+	.sources = [
+		./gui.cpp
+		./button.c 
+		./combo.c 
+		./component.c 
+		./comwin.c 
+		./drawctrl.c 
+		./edit.c 
+		./gbind.c 
+		./globals.c 
+		./imageview.c 
+		./label.c 
+		./layout.c 
+		./listbox.c 
+		./menu.c 
+		./menuitem.c 
+		./panel.c 
+		./popup.c 
+		./progress.c 
+		./slider.c 
+		./splitview.c 
+		./tableview.c 
+		./textview.c 
+		./updown.c 
+		./view.c 
+		./window.c 
+		dir + ./res_assert.c
+	]
+	.deps += nrc;
+	.configs += ^main_config;
+	.include_dirs += dir
+}
+

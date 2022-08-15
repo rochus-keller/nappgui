@@ -1,0 +1,14 @@
+# see https://github.com/rochus-keller/BUSY/
+
+let bode * : Executable {
+	.sources = [ 
+		./bdcalc.c  
+		./bdctrl.c  
+		./bdmodel.c  
+		./bdplot.c  
+		./bdview.c  
+		./bode.c 
+	]
+	.deps += ^static_all_lib ;
+	.configs += ^use_nappgui_static
+}

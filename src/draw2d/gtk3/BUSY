@@ -1,0 +1,12 @@
+# see https://github.com/rochus-keller/BUSY/
+
+let sources * : SourceSet {
+	.sources = [
+		./dctx_gtk.c 
+		./draw2d_gtk.c 
+		./osfont.c 
+		./osimage.c 
+	]
+	.configs += [ ^main_config ^gtk_config ]
+}
+

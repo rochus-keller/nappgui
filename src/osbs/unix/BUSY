@@ -1,0 +1,16 @@
+# see https://github.com/rochus-keller/BUSY/
+
+let sources * : SourceSet {
+	.sources = [
+		./bfile.c 
+		./bmutex.c 
+		./bproc.c 
+		./bthread.c 
+		./btime.c 
+		./bsocket.c 
+		./sinfo.c
+	]
+	.configs += ^main_config
+}
+
+

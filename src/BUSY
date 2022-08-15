@@ -1,0 +1,254 @@
+# see https://github.com/rochus-keller/BUSY/
+
+# this is the standard configuration for shared libraries and executables using nappgui code
+# it assumes that c++ code is included
+# NOTE if we leafe these out the build of the .so succeeds but we get strange symbol missing exceptions in Mono
+let basic_linker_config : Config {
+	if (target_os == `linux) || (target_os == `macos) {
+		.lib_names += [ 
+			"m" "pthread" "stdc++" 
+		]
+		.ldflags += "-shared-libgcc"
+	}else if target_os == `win32 {
+		.lib_names = [
+			"Gdi32" "User32" "Shell32" "Comdlg32"
+		]
+	}else {
+		error("target os not supported")
+	}
+}
+
+# this is the internal config used to compile all files of nappgui
+let main_config - : Config {
+	.include_dirs += [ ./geom2d ./core ./osbs ./sewer ./draw2d ./osgui ./gui ]
+	.defines += [ 
+		"NAPPGUI_LIBRARY" 
+		"CMAKE_RELEASE" 
+		"NAPPGUI_BUILD_DIR=\"" + tostring(root_build_dir) + "\""
+		"NAPPGUI_SOURCE_DIR=\"" + tostring(root_source_dir) + "\""
+		"NAPPGUI_BUILD=\"" + readstring('../prj/build.txt') + "\"" ]
+		
+	if target_toolchain == `gcc {
+		.cflags += "-fPIC" # TODO put in default configs
+	}
+}
+
+# this is the internal configuration used to link the nappgui gtk version of the shared library
+let link_gtk : Config {
+	.lib_dirs += [
+		//usr/lib/i386-linux-gnu 
+	]
+	.lib_names += [
+		"cairo" 
+		"pango-1.0" 
+		"glib-2.0" 
+		"gdk_pixbuf-2.0" 
+		"gtk-3" 
+		"atk-1.0"
+	]
+}
+
+#this is used to compile the gtk source files of nappgui and link the shared library version
+let gtk_config - : Config {
+	.configs += link_gtk;
+	.defines += "__GTK3__"
+	.include_dirs = [
+		//usr/include/cairo 
+		//usr/include/pango-1.0 
+		//usr/include/glib-2.0 
+		//usr/lib/i386-linux-gnu/glib-2.0/include
+	    //usr/include/gdk-pixbuf-2.0 
+	    //usr/include/gtk-3.0 
+	    //usr/include/atk-1.0
+	]
+}
+
+# used to link an executable depending on the nappgui static library
+let gtk_app_full : Config {
+	.configs += link_gtk;
+	.lib_names += [
+		"gobject-2.0"
+		"gio-2.0"
+		"gdk-3"
+		"pangocairo-1.0"
+	]
+}
+
+#this is used to link the nappgui shared library on mac
+let osx_config - : Config {
+	.frameworks += [
+		"CoreFoundation" 
+		"CoreGraphics" 
+		"CoreText" 
+		"AppKit" 
+	]
+}
+
+#this is used to compile the windows source files of nappgui and link the shared library
+let win_config - : Config {
+	.defines += [ "_WINDOWS" "UNICODE" "_UNICODE" ] #both unicode defines are required!
+}
+
+# useful for all client apps of nappgui whether static or shared lib version in use
+# in case of static lib additional configs such as gtk_app_full are also required
+let use_nappgui * : Config {
+	.include_dirs += [ ./geom2d ./core ./osbs ./sewer ./draw2d ./osgui ./gui ./osapp ]
+	.defines += "CMAKE_RELEASE"
+	.configs += basic_linker_config
+}
+
+
+subdir core
+subdir draw2d
+subdir geom2d
+subdir sewer
+subdir osbs
+subdir osgui
+subdir osapp
+subdir gui
+subdir utils
+
+### this is the deployable nrc application of nappgui
+let nrc * : Executable {
+	.deps = [ 
+		utils.sources
+		core.sources
+		sewer.sources
+		osbs.sources
+	]
+	.configs += use_nappgui
+}
+
+let all_lib_sources : Group {
+	.deps = [
+		core.sources
+		draw2d.sources
+		geom2d.sources
+		sewer.sources
+		osbs.sources
+		osgui.sources
+		osapp.sources
+		nrc
+		gui.sources
+	]
+}
+
+### this is the deployable static lib version of nappgui
+let static_all_lib* : Library {
+	.name = "NAppGUI"
+	.lib_type = `static
+	.deps = [
+		all_lib_sources
+	]
+}
+
+let static_core_lib* : Library {
+	.name = "NAppGUICore"
+	.lib_type = `static
+	.deps = [
+		core.sources
+		sewer.sources
+		osbs.sources
+	]
+}
+
+let static_draw_lib* : Library {
+	.name = "NAppGUIDraw"
+	.lib_type = `static
+	.deps = [
+		draw2d.sources
+		geom2d.sources
+	]
+}
+
+let static_gui_lib* : Library {
+	.name = "NAppGUIGui"
+	.lib_type = `static
+	.deps = [
+		osgui.sources
+		osapp.sources
+		nrc
+		gui.sources
+	]
+}
+
+let shared_lib_config : Config {
+	.configs += basic_linker_config
+	if target_os == `linux {
+		.configs += gtk_config
+	}else if target_os == `win32 {
+		.configs += win_config
+	}else if target_os == `macos {
+		.configs += osx_config
+	}else {
+		error("target os not supported")
+	}
+}
+
+### this is the deployable shared lib version of nappgui
+let shared_all_lib* : Library {
+	.name = "NAppGUI"
+	.lib_type = `shared
+	.deps = [
+		all_lib_sources
+	]
+	.configs += shared_lib_config;
+	.def_file = ../qmake/NAppGUI.def
+}
+
+let shared_core_lib* : Library {
+	.name = "NAppGUICore"
+	.lib_type = `shared
+	.deps = [
+		core.sources
+		sewer.sources
+		osbs.sources
+	]
+	.configs += shared_lib_config;
+	.def_file = ../qmake/NAppGUI.def
+}
+
+let shared_draw_lib* : Library {
+	.name = "NAppGUIDraw"
+	.lib_type = `shared
+	.deps = [
+	    shared_core_lib
+		draw2d.sources
+		geom2d.sources
+	]
+	.configs += shared_lib_config;
+	.def_file = ../qmake/NAppGUI.def
+}
+
+let shared_gui_lib* : Library {
+	.name = "NAppGUIGui"
+	.lib_type = `shared
+	.deps = [
+	    shared_core_lib
+	    shared_draw_lib
+		osgui.sources
+		osapp.sources
+		nrc
+		gui.sources
+	]
+	.configs += shared_lib_config;
+	.def_file = ../qmake/NAppGUI.def
+}
+
+let use_nappgui_static * : Config {
+	.configs += use_nappgui
+	if target_os == `linux {
+		.configs += gtk_app_full
+	} else if target_os == `win32 {
+		# NOP
+	} else if target_os == `macos {
+		.configs += osx_config
+	} else {
+		error("target os not supported")
+	}
+}
+
+
+subdir demo
+
+let demos * = demo.apps

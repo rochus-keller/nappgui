@@ -3,6 +3,42 @@ Cross-Platform C SDK. Build portable desktop applications for Windows, macOS and
 
 ![NAppGUI Stack](https://nappgui.com/img/start/nappgui_stack.png)
 
+## Quick start using the BUSY build system
+
+NAppGUI and it's utility and demo applications can be built ab initio (i.e. with no system requirements 
+beyond those of NAppGUI, particularly no Cmake) on all platforms using the BUSY build system. 
+Both static and shared library versions of NAppGUI are supported.
+
+Proceed as follows:
+
+1) Open a terminal window which is correctly set up for the intended toolchain; i.e. Visual Studio on Windows
+comes with pre-declared macros, such as vcvars32.bat or vcvars64.bat, see https://docs.microsoft.com/en-us/cpp/build/building-on-the-command-line?view=msvc-170; on Mac and Linux a properly configured GCC is usually directly available in the terminal without additional steps.
+2) Download https://github.com/rochus-keller/nappgui/archive/refs/heads/BUSY.zip and unpack
+3) Create a build subdirectory in the nappgui directory, e.g. build
+4) Download and unpack the BUSY source files to the build directory; you can use this link: https://github.com/rochus-keller/BUSY/archive/refs/heads/main.zip
+5) Set the current directory to the build directory.
+Then...
+
+...with GCC & CLANG on Linux/Unix:
+
+6) `gcc *.c -O2 -lm -O2 -o lua`
+
+7) `./lua build.lua`
+
+...with GCC & CLANG on Windows:
+
+6) `gcc *.c -O2 -lm -O2 -o lua.exe`
+
+7) `lua build.lua`
+
+...with MSVC on Windows:
+
+6) `cl /O2 /MD /Fe:lua.exe *.c`
+
+7) `lua build.lua`
+
+8) Wait until the build finishes (half a minute); the built libraries are in the output/src subdirectory
+
 ## Quick start in Windows
 
 ### Prerequisites
