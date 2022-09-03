@@ -161,8 +161,8 @@ let static_draw_lib* : Library {
 	]
 }
 
-let static_gui_lib* : Library {
-	.name = "NAppGUIGui"
+let static_widgets_lib* : Library {
+	.name = "NAppGUIWidgets"
 	.lib_type = `static
 	.deps = [
 		osgui.sources
@@ -219,8 +219,8 @@ let shared_draw_lib* : Library {
 	.def_file = ../qmake/NAppGUI.def
 }
 
-let shared_gui_lib* : Library {
-	.name = "NAppGUIGui"
+let shared_widgets_lib* : Library {
+	.name = "NAppGUIWidgets"
 	.lib_type = `shared
 	.deps = [
 	    shared_core_lib
