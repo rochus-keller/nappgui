@@ -12,25 +12,59 @@ let use_nappgui_static* = src.use_nappgui_static
 let shared_all_lib* = src.shared_all_lib
 
 let shared_core_lib* = src.shared_core_lib
-let shared_draw_lib* = src.shared_draw_lib
-let shared_widgets_lib* = src.shared_widgets_lib
+let shared_sewer_lib* = src.shared_sewer_lib
+let shared_osbs_lib* = src.shared_osbs_lib
+let shared_draw2d_lib* = src.shared_draw2d_lib
+let shared_geom2d_lib* = src.shared_geom2d_lib
+let shared_osgui_lib* = src.shared_osgui_lib
+let shared_osapp_lib* = src.shared_osapp_lib
+let shared_gui_lib* = src.shared_gui_lib
 
 # build and use the static library version of nappgui
 let static_all_lib* = src.static_all_lib
 
 let static_core_lib* = src.static_core_lib
-let static_draw_lib* = src.static_draw_lib
-let static_widgets_lib* = src.static_widgets_lib
+let static_sewer_lib* = src.static_sewer_lib
+let static_osbs_lib* = src.static_osbs_lib
+let static_draw2d_lib* = src.static_draw2d_lib
+let static_geom2d_lib* = src.static_geom2d_lib
+let static_osgui_lib* = src.static_osgui_lib
+let static_osapp_lib* = src.static_osapp_lib
+let static_gui_lib* = src.static_gui_lib
 
 # build and use the nrc utility application of nappgui
 let nrc* = src.nrc
 
 # this is the default build which builds everything
 let all! : Group {
-	.deps = [
+	if target_os != `win32 {
+		# the def files are not complete yet; non-public API is missing
+		.deps += [
+			shared_core_lib
+			shared_sewer_lib
+			shared_osbs_lib
+			shared_draw2d_lib
+			shared_geom2d_lib
+			shared_osgui_lib
+			shared_osapp_lib
+			shared_gui_lib
+			]
+	}
+	.deps += [
 		shared_all_lib
+		
+		static_core_lib
+		static_sewer_lib
+		static_osbs_lib
+		static_draw2d_lib
+		static_geom2d_lib
+		static_osgui_lib
+		static_osapp_lib
+		static_gui_lib
 		static_all_lib
+		
 		nrc
+		
 		src.demos
 	]
 }

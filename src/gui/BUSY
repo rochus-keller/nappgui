@@ -1,15 +1,6 @@
 # see https://github.com/rochus-keller/BUSY/
 
-let nrc : LuaScript {
-	.script = root_source_dir + ./src/execute.lua
-	.args += [
-		tostring( root_build_dir + ./src/nrc )
-		"-dc"
-		tostring(abspath( ./res/res_assert ))
-		tostring( root_build_dir + relpath() + ./res_assert.c )
-	]
-	.deps += ^nrc
-}
+^run_nrc(./res/res_assert , ./res_assert.c , res)
 
 let sources * : SourceSet {
 	let dir = root_build_dir + relpath()
@@ -41,7 +32,7 @@ let sources * : SourceSet {
 		./window.c 
 		dir + ./res_assert.c
 	]
-	.deps += nrc;
+	.deps += [ ^nrc res ]
 	.configs += ^main_config;
 	.include_dirs += dir
 }

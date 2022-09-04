@@ -1,0 +1,7 @@
+LIBRARY osapp
+EXPORTS
+	osapp_finish
+	osapp_task_imp
+	osapp_menubar
+	osapp_open_url
+	osmain_imp
