@@ -24,13 +24,13 @@ let fractals * : Executable {
 	.sources = [ 
 		./fractals.c 
 	]
-	if false {
+	if true {
 		#.deps += ^static_all_lib;
 		.deps += static_libs;
 		.configs += ^use_nappgui_static
 	} else {
 		#.deps += shared_libs;
 		.deps += ^shared_all_lib;
-		.configs += ^use_nappgui
+		.configs += ^main_config
 	}
 }

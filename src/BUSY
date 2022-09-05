@@ -1,5 +1,10 @@
 # see https://github.com/rochus-keller/BUSY/
 
+#this is used to compile the windows source files of nappgui and link the shared library
+let win_config - : Config {
+	.defines += [ "_WINDOWS" "UNICODE" "_UNICODE" ] #both unicode defines are required!
+}
+
 # this is the standard configuration for shared libraries and executables using nappgui code
 # it assumes that c++ code is included
 # NOTE if we leafe these out the build of the .so succeeds but we get strange symbol missing exceptions in Mono
@@ -20,7 +25,7 @@ let basic_linker_config : Config {
 
 # this is the internal config used to compile all files of nappgui
 let main_config - : Config {
-	.include_dirs += [ ./geom2d ./core ./osbs ./sewer ./draw2d ./osgui ./gui ]
+	.include_dirs += [ ./geom2d ./core ./osbs ./sewer ./draw2d ./osgui ./gui ./osapp ]
 	.defines += [ 
 		"NAPPGUI_LIBRARY" 
 		"CMAKE_RELEASE" 
@@ -30,6 +35,9 @@ let main_config - : Config {
 		
 	if target_toolchain == `gcc {
 		.cflags += "-fPIC" # TODO put in default configs
+	}
+	if target_os == `win32 {
+		.configs += win_config
 	}
 }
 
@@ -84,11 +92,6 @@ let osx_config - : Config {
 	]
 }
 
-#this is used to compile the windows source files of nappgui and link the shared library
-let win_config - : Config {
-	.defines += [ "_WINDOWS" "UNICODE" "_UNICODE" ] #both unicode defines are required!
-}
-
 # useful for all client apps of nappgui whether static or shared lib version in use
 # in case of static lib additional configs such as gtk_app_full are also required
 let use_nappgui * : Config {
@@ -116,6 +119,9 @@ let nrc * : Executable {
 		osbs.sources
 	]
 	.configs += use_nappgui
+	if target_os == `win32 {
+		.configs += win_config
+	}
 }
 
 define run_nrc* (in_path, out_file, name) {

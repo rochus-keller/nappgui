@@ -35,8 +35,6 @@ EXPORTS
 	array_sort_ptr_ex
 	array_write
 	array_write_ptr
-	arrpt_Image_end
-	arrst_FPtr_respack_end
 	bhash_append_real32
 	bhash_append_uint32
 	bhash_from_block
@@ -153,8 +151,6 @@ EXPORTS
 	respack_destroy
 	respack_file
 	respack_text
-	setpt_Image_end
-	setst_FPtr_respack_end
 	stm_append_file
 	stm_buffer
 	stm_buffer_size
@@ -472,8 +468,6 @@ EXPORTS
 	cir2df
 	col2d_aabb_aabb_distd
 	col2d_aabb_aabb_distf
-	col2d_aabb_point_distd
-	col2d_aabb_point_distf
 	col2d_box_boxd
 	col2d_box_boxf
 	col2d_box_circled
@@ -810,7 +804,6 @@ EXPORTS
 	layout_button
 	layout_cell
 	layout_combo
-	layout_content_size
 	layout_control_imp
 	layout_create
 	layout_dbind_imp
