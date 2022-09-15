@@ -1,8 +1,8 @@
 # see https://github.com/rochus-keller/BUSY/
 
-subdir gtk3
-subdir osx
-subdir win
+submod gtk3
+submod osx
+submod win
 
 let sources * : SourceSet {
 	.sources = [

@@ -1,6 +1,10 @@
 # see https://github.com/rochus-keller/BUSY/
 
-subdir src
+if busy_version < "2022-09-15" {
+	error("this version of BUSY is not compatible with this build")
+}
+ 
+submod src
 
 # for clients using the shared lib version of nappgui
 let use_nappgui* = src.use_nappgui

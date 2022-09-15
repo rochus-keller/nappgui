@@ -101,14 +101,14 @@ let use_nappgui * : Config {
 }
 
 
-subdir core
-subdir draw2d
-subdir geom2d
-subdir sewer
-subdir osbs
-subdir osgui
-subdir osapp
-subdir utils
+submod core
+submod draw2d
+submod geom2d
+submod sewer
+submod osbs
+submod osgui
+submod osapp
+submod utils
 
 ### this is the deployable nrc application of nappgui
 let nrc * : Executable {
@@ -136,7 +136,7 @@ define run_nrc* (in_path, out_file, name) {
 	}
 }
 
-subdir gui
+submod gui
 
 ### this is the deployable static lib version of nappgui
 let static_all_lib* : Library {
@@ -351,6 +351,6 @@ let use_nappgui_static * : Config {
 	}
 }
 
-subdir demo
+submod demo
 
 let demos * = demo.apps

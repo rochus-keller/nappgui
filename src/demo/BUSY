@@ -1,9 +1,8 @@
 # see https://github.com/rochus-keller/BUSY/
 
-subdir bode
-subdir fractals
-subdir casino # to just create the build directory used by die
-subdir die
+submod bode
+submod fractals
+submod die
 
 let apps * : Group {
 	.deps = [ 

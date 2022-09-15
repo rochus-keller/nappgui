@@ -1,7 +1,6 @@
 # see https://github.com/rochus-keller/BUSY/
 
-subdir nlib
-subdir nrc
+submod nlib
 
 let sources * : SourceSet {
 	.deps += [ nlib.sources ]
