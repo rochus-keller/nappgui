@@ -13,7 +13,7 @@
 #include "dgui.h"
 #include "ddraw.h"
 #include "guiall.h"
-#include "all.h"
+#include "all_.h" // all.h/c conflicts with other Makefile declarations
 
 /*---------------------------------------------------------------------------*/
 
@@ -151,7 +151,7 @@ static void i_OnLang(App *app, Event *e)
 
 Window *dgui_window(App *app)
 {
-    gui_respack(all_respack);
+    gui_respack(all__respack);
     gui_language("");
 
     {

@@ -1,16 +1,14 @@
 # see https://github.com/rochus-keller/BUSY/
 
-^run_nrc( 'res/all', 'all.c', res )
+^run_nrc( 'res/all', 'all_.c', res ) # all.c would conflict with other Makefile declarations
 
 let die * : Executable {
-	let dir = root_build_dir + relpath()
 	.sources = [ 
 		./main.c
 		./dgui.c
 		../casino/ddraw.c
-		dir + ./all.c
 	]
-	.include_dirs += [ dir ../casino ]
+	.include_dirs += [ build_dir() ../casino ]
 	.deps = [ ^static_all_lib res ]
 	.configs += ^use_nappgui_static
 }

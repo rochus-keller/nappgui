@@ -3,7 +3,6 @@
 ^run_nrc(./res/res_assert , ./res_assert.c , res)
 
 let sources * : SourceSet {
-	let dir = root_build_dir + relpath()
 	.sources = [
 		./gui.cpp
 		./button.c 
@@ -30,10 +29,9 @@ let sources * : SourceSet {
 		./updown.c 
 		./view.c 
 		./window.c 
-		dir + ./res_assert.c
 	]
 	.deps += [ ^nrc res ]
 	.configs += ^main_config;
-	.include_dirs += dir
+	.include_dirs += build_dir()
 }
 

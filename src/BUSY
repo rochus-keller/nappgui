@@ -111,7 +111,7 @@ submod osapp
 submod utils
 
 ### this is the deployable nrc application of nappgui
-let nrc * : Executable {
+let nrc_exe * : Executable {
 	.deps = [ 
 		utils.sources
 		core.sources
@@ -122,17 +122,25 @@ let nrc * : Executable {
 	if target_os == `win32 {
 		.configs += win_config
 	}
+	.name = "nrc"
+}
+
+let nrc* : Copy {
+	.use_deps += `executable
+	.deps += nrc_exe;
+	.outputs += ./bin/{{source_file_part}}
 }
 
 define run_nrc* (in_path, out_file, name) {
 	let name : LuaScript {
 		.script = root_source_dir + ./src/execute.lua
 		.args += [
-			tostring( root_build_dir + ./src/nrc )
+			"{{root_build_dir}}/bin/nrc"
 			"-dc"
 			tostring(abspath(in_path))
-			tostring( root_build_dir + relpath() + out_file )
+			"{{current_build_dir}}/" + tostring( out_file )
 		]
+		.outputs += out_file
 	}
 }
 

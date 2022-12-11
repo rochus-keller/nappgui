@@ -39,8 +39,9 @@ let static_gui_lib* = src.static_gui_lib
 # build and use the nrc utility application of nappgui
 let nrc* = src.nrc
 
-# this is the default build which builds everything
-let all! : Group {
+let all_libs : Copy {
+	.use_deps += [ `shared_lib `static_lib  ]
+	.outputs += ./lib/{{source_file_part}}
 	if target_os != `win32 {
 		# the def files are not complete yet; non-public API is missing
 		.deps += [
@@ -55,6 +56,8 @@ let all! : Group {
 			]
 	}
 	.deps += [
+		nrc
+
 		shared_all_lib
 		
 		static_core_lib
@@ -66,11 +69,15 @@ let all! : Group {
 		static_osapp_lib
 		static_gui_lib
 		static_all_lib
-		
-		nrc
-		
-		src.demos
 	]
 }
+
+# this is the default build which builds everything
+let demos ! : Copy {
+	.use_deps += `executable;
+	.deps += [ all_libs src.demos ]
+	.outputs += ./bin/{{source_file_part}}
+}
+
 
 
