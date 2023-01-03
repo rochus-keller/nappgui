@@ -1,0 +1,30 @@
+# see https://github.com/rochus-keller/BUSY/
+
+let sources * : SourceSet {
+	.sources = [
+		./osbutton.c 
+		./oscombo.c 
+		./oscomwin.c 
+		./oscontrol.c 
+		./osdrawctrl.c 
+		./osedit.c 
+		./osglobals.c 
+		./osgui_gtk.c 
+		./oslabel.c 
+		./oslistener.c 
+		./osmenu.c 
+		./osmenuitem.c 
+		./ospanel.c 
+		./ospopup.c 
+		./osprogress.c 
+		./osslider.c 
+		./ossplit.c 
+		./ostext.c 
+		./osupdown.c 
+		./osview.c 
+		./oswindow.c 
+	]
+	.configs += [ ^main_config ^gtk_config ]
+	.include_dirs += ../../draw2d/gtk3
+}
+

@@ -1,0 +1,31 @@
+# see https://github.com/rochus-keller/BUSY/
+
+let sources * : SourceSet {
+	.sources = [
+		./osbutton.m 
+		./oscolor.m 
+		./oscombo.m 
+		./oscomwin.m 
+		./oscontrol.m 
+		./osedit.m 
+		./osglobals.m 
+		./osgui_osx.m 
+		./oslabel.m 
+		./oslistener.m 
+		./ospanel.m 
+		./ospopup.m 
+		./osprogress.m 
+		./osslider.m 
+		./ostext.m 
+		./osupdown.m 
+		./osview.m 
+		./osdrawctrl.m 
+		./osmenu.m 
+		./osmenuitem.m 
+		./ossplit.m 
+		./oswindow.m
+	]
+	.configs += [ ^main_config ^osx_config ]
+	.include_dirs += ../../draw2d/osx
+}
+

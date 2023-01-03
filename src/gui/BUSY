@@ -1,0 +1,37 @@
+# see https://github.com/rochus-keller/BUSY/
+
+^run_nrc(./res/res_gui , ./res_gui.c , res)
+
+let sources * : SourceSet {
+	.sources = [
+		./gui.c
+		./button.c 
+		./combo.c 
+		./component.c 
+		./comwin.c 
+		./drawctrl.c 
+		./edit.c 
+		./gbind.c 
+		./globals.c 
+		./imageview.c 
+		./label.c 
+		./layout.c 
+		./listbox.c 
+		./menu.c 
+		./menuitem.c 
+		./panel.c 
+		./popup.c 
+		./progress.c 
+		./slider.c 
+		./splitview.c 
+		./tableview.c 
+		./textview.c 
+		./updown.c 
+		./view.c 
+		./window.c 
+	]
+	.deps += [ ^nrc res ]
+	.configs += ^main_config;
+	.include_dirs += build_dir()
+}
+

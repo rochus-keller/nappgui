@@ -1,0 +1,13 @@
+# see https://github.com/rochus-keller/BUSY/
+
+submod bode
+submod fractals
+submod die
+
+let apps * : Group {
+	.deps = [ 
+		bode.bode 
+		fractals.fractals
+		die.die
+	]
+}

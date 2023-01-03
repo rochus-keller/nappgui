@@ -1,0 +1,12 @@
+# see https://github.com/rochus-keller/BUSY/
+
+let sources * : SourceSet {
+	.sources = [
+		./dctx_osx.m 
+		./draw_osx.m 
+		./osfont.m 
+		./osimage.m 
+	]
+	.configs += [ ^main_config ^osx_config ]
+}
+

@@ -1,0 +1,20 @@
+# see https://github.com/rochus-keller/BUSY/
+
+let sources * : SourceSet {
+	.sources = [
+		./box2d.cpp 
+		./cir2d.cpp 
+		./col2d.cpp 
+		./obb2d.cpp 
+		./pol2d.cpp 
+		./polabel.cpp 
+		./polpart.cpp 
+		./r2d.cpp 
+		./s2d.cpp 
+		./seg2d.cpp 
+		./t2d.cpp 
+		./tri2d.cpp 
+		./v2d.cpp 
+	]
+	.configs += ^main_config
+}

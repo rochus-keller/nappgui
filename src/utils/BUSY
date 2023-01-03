@@ -1,0 +1,10 @@
+# see https://github.com/rochus-keller/BUSY/
+
+submod nlib
+
+let sources * : SourceSet {
+	.deps += [ nlib.sources ]
+	.sources += ./nrc/nrc.c
+	.include_dirs += ./nlib
+	.configs += ^main_config
+}
