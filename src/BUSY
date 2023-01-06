@@ -30,7 +30,12 @@ let main_config - : Config {
 		"CMAKE_RELEASE" 
 		"NAPPGUI_BUILD_DIR=\"" + tostring(root_build_dir) + "\""
 		"NAPPGUI_SOURCE_DIR=\"" + tostring(root_source_dir) + "\""
-		"NAPPGUI_BUILD=\"" + readstring('../prj/build.txt') + "\"" ]
+		"NAPPGUI_BUILD=\"" + readstring('../prj/build.txt') + "\"" 
+	]
+	
+	if ^HAVE_SHARED {
+		.defines += "NAPPGUI_SHARED"
+	}
 		
 	if target_toolchain == `gcc {
 		.cflags += "-fPIC" # TODO put in default configs
@@ -110,6 +115,8 @@ let use_nappgui * : Config {
 		} else {
 			error("target os not supported")
 		}
+	}else{
+		.defines += "NAPPGUI_SHARED"
 	}
 }
 
@@ -285,6 +292,7 @@ let osapp_lib* : Library {
 		.deps += [
 	    	osgui_lib
 	    	gui_lib
+	    	draw2d_lib
 			geom2d_lib core_lib osbs_lib sewer_lib
 		]
 	}

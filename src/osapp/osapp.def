@@ -1,21 +1,23 @@
 /* OSApp library import/export */
 
-#if defined(OSAPP_IMPORT)
-    #if defined(__GNUC__)
-        #define _osapp_api
-    #elif defined(_MSC_VER)
-        #define _osapp_api __declspec(dllimport)
-    #else
-        #error Unknown compiler
-    #endif
-#elif defined(NAPPGUI_SHARED_LIB)
-    #if defined(__GNUC__)
-        #define _osapp_api __attribute__((visibility("default")))
-    #elif defined(_MSC_VER)
-        #define _osapp_api __declspec(dllexport)
-    #else
-        #error Unknown compiler
-    #endif
+#if defined(NAPPGUI_SHARED)
+	#if defined(NAPPGUI_BUILD_OSAPP_LIB)
+		#if defined(__GNUC__)
+		    #define _osapp_api __attribute__((visibility("default")))
+		#elif defined(_MSC_VER)
+		    #define _osapp_api __declspec(dllexport)
+		#else
+		    #error Unknown compiler
+		#endif
+	#else
+		#if defined(__GNUC__)
+		    #define _osapp_api
+		#elif defined(_MSC_VER)
+		    #define _osapp_api __declspec(dllimport)
+		#else
+		    #error Unknown compiler
+		#endif
+	#endif
 #else
     #define _osapp_api
 #endif

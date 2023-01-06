@@ -1,18 +1,21 @@
-2022-01-05
+2022-01-06
 
 ## Static build:
 - Builds on Linux (x86), Windows (x86) and Mac (x64)
-- All executables run on Windows
-- Fractals and Bode run on Mac; Die just prints first log output and then hangs
+- All executables run on Windows and Mac
 - No executable runs on Linux; like Die on Mac all print first log output and then hang
 
 ## All-in-one build:
 - Builds on Linux, but executables don't work (same as with static build)
-- Fails on Windows when linking Bode; symbol kBOX2D_NULLf not found; using MSVC 2013
-- Fails on Mac when linking; a lot of symbols missing
+- Builds and runs on Windows, no linking issues (some ignorable linker warnings), all executables work
+- Builds and runs on Mac, all executables work
 
 ## Shared build
 - Builds on Linux, but executables don't work (same as with static build)
-- Fails on Windows; a lot of symbols are missing when linking DLLs
-- Fails on Mac; a lot of symbosl are missing when linking DLLs
+- Builds and runs on Windows, no linking issues, all executables work
+- Builds and runs on Mac, all executables work
 
+
+Conclusion:
+- The build seems to be ok on all platforms
+- All applications run on Windows and Mac, but not on Linux (neither x86 nor x64)

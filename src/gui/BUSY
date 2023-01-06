@@ -3,12 +3,7 @@
 ^run_nrc(./res/res_gui , ./res_gui.c , res)
 
 var config - : Config {
-	if ^HAVE_SHARED {
-		.defines += "NAPPGUI_SHARED_LIB"
-		if !^HAVE_ALLINONE {
-			.defines += "DRAW2D_IMPORT"
-		}
-	}
+	.defines += "NAPPGUI_BUILD_GUI_LIB"
 }
 
 let sources * : SourceSet {

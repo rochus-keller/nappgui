@@ -1,9 +1,7 @@
 # see https://github.com/rochus-keller/BUSY/
 
 var config - : Config {
-	if ^HAVE_SHARED {
-		.defines += "NAPPGUI_SHARED_LIB"
-	}
+	.defines += "NAPPGUI_BUILD_SEWER_LIB"
 }
 
 submod unix

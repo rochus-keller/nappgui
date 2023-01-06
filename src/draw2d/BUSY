@@ -1,12 +1,7 @@
 # see https://github.com/rochus-keller/BUSY/
 
 var config - : Config {
-	if ^HAVE_SHARED {
-		.defines += "NAPPGUI_SHARED_LIB"
-		if !^HAVE_ALLINONE {
-			.defines += "GEOM2D_IMPORT"
-		}
-	}
+	.defines += "NAPPGUI_BUILD_DRAW2D_LIB"
 }
 
 submod gtk3
