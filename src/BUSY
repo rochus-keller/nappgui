@@ -1,8 +1,22 @@
 # see https://github.com/rochus-keller/BUSY/
 
-#this is used to compile the windows source files of nappgui and link the shared library
+#this is used to compile the windows source files of nappgui 
 let win_config - : Config {
 	.defines += [ "_WINDOWS" "UNICODE" "_UNICODE" ] #both unicode defines are required!
+}
+
+#this is used to compile the linux source files of nappgui 
+let compile_gtk - : Config {
+	.defines += "__GTK3__"
+	.include_dirs = [
+		//usr/include/cairo 
+		//usr/include/pango-1.0 
+		//usr/include/glib-2.0 
+		//usr/lib/i386-linux-gnu/glib-2.0/include
+	    //usr/include/gdk-pixbuf-2.0 
+	    //usr/include/gtk-3.0 
+	    //usr/include/atk-1.0
+	]
 }
 
 # this is the standard configuration for shared libraries and executables using nappgui code
@@ -42,6 +56,8 @@ let main_config - : Config {
 	}
 	if target_os == `win32 {
 		.configs += win_config
+	}else if target_os == `linux {
+		.configs += compile_gtk
 	}
 }
 
@@ -62,17 +78,7 @@ let link_gtk : Config {
 
 #this is used to compile the gtk source files of nappgui and link the shared library version
 let gtk_config - : Config {
-	.configs += link_gtk;
-	.defines += "__GTK3__"
-	.include_dirs = [
-		//usr/include/cairo 
-		//usr/include/pango-1.0 
-		//usr/include/glib-2.0 
-		//usr/lib/i386-linux-gnu/glib-2.0/include
-	    //usr/include/gdk-pixbuf-2.0 
-	    //usr/include/gtk-3.0 
-	    //usr/include/atk-1.0
-	]
+	.configs += [ link_gtk compile_gtk ]
 }
 
 # used to link an executable depending on the nappgui static library
