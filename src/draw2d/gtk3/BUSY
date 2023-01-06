@@ -7,6 +7,6 @@ let sources * : SourceSet {
 		./osfont.c 
 		./osimage.c 
 	]
-	.configs += [ ^main_config ^gtk_config ]
+	.configs += [ ^main_config ^gtk_config ^config ]
 }
 

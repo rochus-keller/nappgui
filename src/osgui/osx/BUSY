@@ -25,7 +25,7 @@ let sources * : SourceSet {
 		./ossplit.m 
 		./oswindow.m
 	]
-	.configs += [ ^main_config ^osx_config ]
+	.configs += [ ^main_config ^osx_config ^config ]
 	.include_dirs += ../../draw2d/osx
 }
 

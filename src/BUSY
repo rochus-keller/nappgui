@@ -27,7 +27,6 @@ let basic_linker_config : Config {
 let main_config - : Config {
 	.include_dirs += [ ./geom2d ./core ./osbs ./sewer ./draw2d ./osgui ./gui ./osapp ]
 	.defines += [ 
-		"NAPPGUI_LIBRARY" 
 		"CMAKE_RELEASE" 
 		"NAPPGUI_BUILD_DIR=\"" + tostring(root_build_dir) + "\""
 		"NAPPGUI_SOURCE_DIR=\"" + tostring(root_source_dir) + "\""
@@ -98,8 +97,21 @@ let use_nappgui * : Config {
 	.include_dirs += [ ./geom2d ./core ./osbs ./sewer ./draw2d ./osgui ./gui ./osapp ]
 	.defines += "CMAKE_RELEASE"
 	.configs += basic_linker_config
+	if target_os == `win32 {
+		.configs += win_config
+	}
+	if !^HAVE_SHARED {
+		if target_os == `linux {
+			.configs += gtk_app_full
+		} else if target_os == `win32 {
+			# NOP
+		} else if target_os == `macos {
+			.configs += osx_config
+		} else {
+			error("target os not supported")
+		}
+	}
 }
-
 
 submod core
 submod draw2d
@@ -146,86 +158,6 @@ define run_nrc* (in_path, out_file, name) {
 
 submod gui
 
-### this is the deployable static lib version of nappgui
-let static_all_lib* : Library {
-	.name = "NAppGUI"
-	.lib_type = `static
-	.deps = [
-		core.sources
-		sewer.sources
-		osbs.sources
-		draw2d.sources
-		geom2d.sources
-		osgui.sources
-		osapp.sources
-		gui.sources
-	]
-}
-
-let static_core_lib* : Library {
-	.name = "core"
-	.lib_type = `static
-	.deps = [
-		core.sources
-	]
-}
-
-let static_sewer_lib* : Library {
-	.name = "sewer"
-	.lib_type = `static
-	.deps = [
-		sewer.sources
-	]
-}
-
-let static_osbs_lib* : Library {
-	.name = "osbs"
-	.lib_type = `static
-	.deps = [
-		osbs.sources
-	]
-}
-
-let static_draw2d_lib* : Library {
-	.name = "draw2d"
-	.lib_type = `static
-	.deps = [
-		draw2d.sources
-	]
-}
-
-let static_geom2d_lib* : Library {
-	.name = "geom2d"
-	.lib_type = `static
-	.deps = [
-		geom2d.sources
-	]
-}
-
-let static_osgui_lib* : Library {
-	.name = "osgui"
-	.lib_type = `static
-	.deps = [
-		osgui.sources
-	]
-}
-
-let static_osapp_lib* : Library {
-	.name = "osapp"
-	.lib_type = `static
-	.deps = [
-		osapp.sources
-	]
-}
-
-let static_gui_lib* : Library {
-	.name = "gui"
-	.lib_type = `static
-	.deps = [
-		gui.sources
-	]
-}
-
 let shared_lib_config : Config {
 	.configs += basic_linker_config
 	if target_os == `linux {
@@ -239,10 +171,9 @@ let shared_lib_config : Config {
 	}
 }
 
-### this is the deployable shared lib version of nappgui
-let shared_all_lib* : Library {
+### this is the deployable lib version of nappgui
+let nappgui_lib* : Library { # the all-in-one version of the library
 	.name = "NAppGUI"
-	.lib_type = `shared
 	.deps = [
 		core.sources
 		sewer.sources
@@ -253,109 +184,119 @@ let shared_all_lib* : Library {
 		osapp.sources
 		gui.sources
 	]
-	.configs += shared_lib_config;
-	.def_file = ./NAppGUI.def
+	if ^HAVE_SHARED {
+		.configs += shared_lib_config;
+		.lib_type = `shared
+	}
 }
 
-let shared_sewer_lib* : Library {
+let sewer_lib* : Library {
 	.name = "sewer"
-	.lib_type = `shared
 	.deps = [
 		sewer.sources
 	]
-	.configs += shared_lib_config;
-	.def_file = ./sewer/sewer.def
+	if ^HAVE_SHARED {
+		.configs += shared_lib_config;
+		.lib_type = `shared
+	}
 }
 
-let shared_osbs_lib* : Library {
+let osbs_lib* : Library {
 	.name = "osbs"
-	.lib_type = `shared
 	.deps = [
-		shared_sewer_lib
 		osbs.sources
 	]
-	.configs += shared_lib_config;
-	.def_file = ./osbs/osbs.def
+	if ^HAVE_SHARED {
+		.configs += shared_lib_config;
+		.lib_type = `shared
+		.deps += sewer_lib
+	}
 }
 
-let shared_core_lib* : Library {
+let core_lib* : Library {
 	.name = "core"
-	.lib_type = `shared
 	.deps = [
-		shared_osbs_lib
 		core.sources
 	]
-	.configs += shared_lib_config;
-	.def_file = ./core/core.def
+	if ^HAVE_SHARED {
+		.configs += shared_lib_config;
+		.lib_type = `shared
+		.deps += [ osbs_lib sewer_lib ]
+	}
 }
 
-let shared_geom2d_lib* : Library {
+let geom2d_lib* : Library {
 	.name = "geom2d"
-	.lib_type = `shared
 	.deps = [
-	    shared_core_lib
 		geom2d.sources
 	]
-	.configs += shared_lib_config;
-	.def_file = ./geom2d/geom2d.def
+	if ^HAVE_SHARED {
+		.configs += shared_lib_config;
+		.lib_type = `shared
+		.deps += [ core_lib osbs_lib sewer_lib ]
+	}
 }
 
-let shared_draw2d_lib* : Library {
+let draw2d_lib* : Library {
 	.name = "draw2d"
-	.lib_type = `shared
 	.deps = [
-	    shared_geom2d_lib
 		draw2d.sources
 	]
-	.configs += shared_lib_config;
-	.def_file = ./draw2d/draw2d.def
+	if ^HAVE_SHARED {
+		.configs += shared_lib_config;
+		.lib_type = `shared
+		.deps += [ geom2d_lib core_lib osbs_lib sewer_lib ]
+	}
 }
 
-let shared_osgui_lib* : Library {
+let osgui_lib* : Library {
 	.name = "osgui"
-	.lib_type = `shared
 	.deps = [
-	    shared_draw2d_lib
 		osgui.sources
 	]
-	.configs += shared_lib_config;
-	.def_file = ./osgui/osgui.def
+	if ^HAVE_SHARED {
+		.configs += shared_lib_config;
+		.lib_type = `shared
+		.deps += [ draw2d_lib geom2d_lib core_lib osbs_lib sewer_lib ]
+	}
 }
 
-let shared_gui_lib* : Library {
+let gui_lib* : Library {
 	.name = "gui"
-	.lib_type = `shared
 	.deps = [
-	    shared_draw2d_lib
 		nrc
 		gui.sources
 	]
-	.configs += shared_lib_config;
-	.def_file = ./gui/gui.def
+	if ^HAVE_SHARED {
+		.configs += shared_lib_config;
+		.lib_type = `shared
+		.deps += [ draw2d_lib geom2d_lib core_lib osbs_lib sewer_lib ]
+	}
 }
 
-let shared_osapp_lib* : Library {
+let osapp_lib* : Library {
 	.name = "osapp"
-	.lib_type = `shared
 	.deps = [
-	    shared_osgui_lib
-	    shared_gui_lib
 		osapp.sources
 	]
-	.configs += shared_lib_config;
-	.def_file = ./osapp/osapp.def
+	if ^HAVE_SHARED {
+		.configs += shared_lib_config;
+		.lib_type = `shared
+		.deps += [
+	    	osgui_lib
+	    	gui_lib
+			geom2d_lib core_lib osbs_lib sewer_lib
+		]
+	}
 }
 
-let use_nappgui_static * : Config {
-	.configs += use_nappgui
-	if target_os == `linux {
-		.configs += gtk_app_full
-	} else if target_os == `win32 {
-		# NOP
-	} else if target_os == `macos {
-		.configs += osx_config
-	} else {
-		error("target os not supported")
+let all_libs * : Group {
+	if ^HAVE_ALLINONE || !^HAVE_SHARED {
+		.deps += nappgui_lib
+	}else{
+		.deps = [ core_lib sewer_lib osbs_lib
+			draw2d_lib geom2d_lib osgui_lib
+			osapp_lib gui_lib ]
 	}
 }
 

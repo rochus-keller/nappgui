@@ -1,5 +1,14 @@
 # see https://github.com/rochus-keller/BUSY/
 
+var config - : Config {
+	if ^HAVE_SHARED {
+		.defines += "NAPPGUI_SHARED_LIB"
+		if !^HAVE_ALLINONE {
+			.defines += "DRAW2D_IMPORT"
+		}
+	}
+}
+
 submod gtk3
 submod osx
 submod win
@@ -9,7 +18,7 @@ let sources * : SourceSet {
     	./osgui.c
     	./osguictx.c
 	]
-	.configs += ^main_config
+	.configs += [ ^main_config config ]
 	if target_os == `linux {
 		.deps += gtk3.sources
 	}else if target_os == `win32 {

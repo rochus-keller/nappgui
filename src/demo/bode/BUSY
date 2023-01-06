@@ -9,6 +9,6 @@ let bode * : Executable {
 		./bdview.c  
 		./bode.c 
 	]
-	.deps += ^static_all_lib ;
-	.configs += ^use_nappgui_static
+	.deps += ^all_libs;
+	.configs += ^use_nappgui
 }

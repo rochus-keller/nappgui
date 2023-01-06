@@ -29,7 +29,7 @@ let sources * : SourceSet {
 		./oswindow.c 
 		./osimg.cpp
 	]
-	.configs += [ ^main_config ^win_config ]
+	.configs += [ ^main_config ^win_config ^config ]
 	.include_dirs += ../../draw2d/win
 }
 

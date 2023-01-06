@@ -24,7 +24,7 @@ let sources * : SourceSet {
 		./osview.c 
 		./oswindow.c 
 	]
-	.configs += [ ^main_config ^gtk_config ]
+	.configs += [ ^main_config ^gtk_config ^config ]
 	.include_dirs += ../../draw2d/gtk3
 }
 

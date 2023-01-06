@@ -1,5 +1,14 @@
 # see https://github.com/rochus-keller/BUSY/
 
+var config - : Config {
+	if ^HAVE_SHARED {
+		.defines += "NAPPGUI_SHARED_LIB"
+		if !^HAVE_ALLINONE {
+			.defines += "OSBS_IMPORT"
+		}
+	}
+}
+
 let sources * : SourceSet {
 	.sources = [
     ./core.cpp 
@@ -23,5 +32,5 @@ let sources * : SourceSet {
     ./strings.c 
     ./tfilter.c 
 	]
-	.configs += ^main_config
+	.configs += [ ^main_config config ]
 }

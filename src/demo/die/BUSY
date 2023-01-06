@@ -9,6 +9,6 @@ let die * : Executable {
 		../casino/ddraw.c
 	]
 	.include_dirs += [ build_dir() ../casino ]
-	.deps = [ ^static_all_lib res ]
-	.configs += ^use_nappgui_static
+	.deps = [ ^all_libs res ]
+	.configs += ^use_nappgui
 }

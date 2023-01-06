@@ -7,6 +7,6 @@ let sources * : SourceSet {
 		./osfont.cpp 
 		./osimage.cpp 
 	]
-	.configs += [ ^main_config ^win_config ]
+	.configs += [ ^main_config ^win_config ^config ]
 }
 

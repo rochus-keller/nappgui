@@ -7,6 +7,6 @@ let sources * : SourceSet {
 		./osfont.m 
 		./osimage.m 
 	]
-	.configs += [ ^main_config ^osx_config ]
+	.configs += [ ^main_config ^osx_config ^config ]
 }
 

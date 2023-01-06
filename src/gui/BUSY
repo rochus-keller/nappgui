@@ -2,6 +2,15 @@
 
 ^run_nrc(./res/res_gui , ./res_gui.c , res)
 
+var config - : Config {
+	if ^HAVE_SHARED {
+		.defines += "NAPPGUI_SHARED_LIB"
+		if !^HAVE_ALLINONE {
+			.defines += "DRAW2D_IMPORT"
+		}
+	}
+}
+
 let sources * : SourceSet {
 	.sources = [
 		./gui.c
@@ -31,7 +40,7 @@ let sources * : SourceSet {
 		./window.c 
 	]
 	.deps += [ ^nrc res ]
-	.configs += ^main_config;
+	.configs += [ ^main_config config ]
 	.include_dirs += build_dir()
 }
 

@@ -1,5 +1,14 @@
 # see https://github.com/rochus-keller/BUSY/
 
+var config - : Config {
+	if ^HAVE_SHARED {
+		.defines += "NAPPGUI_SHARED_LIB"
+		if !^HAVE_ALLINONE {
+			.defines += "CORE_IMPORT"
+		}
+	}
+}
+
 let sources * : SourceSet {
 	.sources = [
 		./box2d.cpp 
@@ -16,5 +25,5 @@ let sources * : SourceSet {
 		./tri2d.cpp 
 		./v2d.cpp 
 	]
-	.configs += ^main_config
+	.configs += [ ^main_config config ]
 }

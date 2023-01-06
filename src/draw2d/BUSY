@@ -1,5 +1,14 @@
 # see https://github.com/rochus-keller/BUSY/
 
+var config - : Config {
+	if ^HAVE_SHARED {
+		.defines += "NAPPGUI_SHARED_LIB"
+		if !^HAVE_ALLINONE {
+			.defines += "GEOM2D_IMPORT"
+		}
+	}
+}
+
 submod gtk3
 submod osx
 submod win
@@ -17,7 +26,7 @@ let sources * : SourceSet {
 		./palette.c 
 		./pixbuf.c 
 	]
-	.configs += ^main_config
+	.configs += [ ^main_config config ]
 	
 	if target_os == `linux {
 		.deps += gtk3.sources

@@ -1,5 +1,11 @@
 # see https://github.com/rochus-keller/BUSY/
 
+var config - : Config {
+	if ^HAVE_SHARED {
+		.defines += "NAPPGUI_SHARED_LIB"
+	}
+}
+
 submod unix
 submod win
 
@@ -15,7 +21,7 @@ let sources * : SourceSet {
 		./types.c 
 		./unicode.c 
 	]
-	.configs += ^main_config
+	.configs += [ ^main_config config ]
 	
 	if (target_os == `linux) || (target_os == `macos) {
 		.deps += unix.sources

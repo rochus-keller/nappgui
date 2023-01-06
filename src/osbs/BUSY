@@ -1,5 +1,14 @@
 # see https://github.com/rochus-keller/BUSY/
 
+var config - : Config {
+	if ^HAVE_SHARED {
+		.defines += "NAPPGUI_SHARED_LIB"
+		if !^HAVE_ALLINONE {
+			.defines += "SEWER_IMPORT"
+		}
+	}
+}
+
 submod unix
 submod win
 
@@ -9,7 +18,7 @@ let sources * : SourceSet {
 		./log.c 
 		./bsocket.c 
 	]
-	.configs += ^main_config
+	.configs += [ ^main_config config ]
 	
 	if target_os == `linux {
 		.sources += ./linux/sinfo.c

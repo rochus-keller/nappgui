@@ -4,78 +4,58 @@ if busy_version < "2022-09-15" {
 	error("this version of BUSY is not compatible with this build")
 }
  
+param HAVE_SHARED   = false  # build the shared library version of NAppGUI (default is static library version)
+param HAVE_ALLINONE = false  # in case of HAVE_SHARED compile all functions into one DLL (instead of one per module)
+
+if HAVE_ALLINONE && !HAVE_SHARED {
+	HAVE_SHARED = true
+}
+
 submod src
 
-# for clients using the shared lib version of nappgui
+# for clients using nappgui
 let use_nappgui* = src.use_nappgui
 
-# for clients using the static lib version of nappgui
-let use_nappgui_static* = src.use_nappgui_static
+# build and use the nappgui libraries
+let nappgui_lib* = src.nappgui_lib
+let core_lib* = src.core_lib
+let sewer_lib* = src.sewer_lib
+let osbs_lib* = src.osbs_lib
+let draw2d_lib* = src.draw2d_lib
+let geom2d_lib* = src.geom2d_lib
+let osgui_lib* = src.osgui_lib
+let osapp_lib* = src.osapp_lib
+let gui_lib* = src.gui_lib
 
-# build and use the shared library version of nappgui
-let shared_all_lib* = src.shared_all_lib
-
-let shared_core_lib* = src.shared_core_lib
-let shared_sewer_lib* = src.shared_sewer_lib
-let shared_osbs_lib* = src.shared_osbs_lib
-let shared_draw2d_lib* = src.shared_draw2d_lib
-let shared_geom2d_lib* = src.shared_geom2d_lib
-let shared_osgui_lib* = src.shared_osgui_lib
-let shared_osapp_lib* = src.shared_osapp_lib
-let shared_gui_lib* = src.shared_gui_lib
-
-# build and use the static library version of nappgui
-let static_all_lib* = src.static_all_lib
-
-let static_core_lib* = src.static_core_lib
-let static_sewer_lib* = src.static_sewer_lib
-let static_osbs_lib* = src.static_osbs_lib
-let static_draw2d_lib* = src.static_draw2d_lib
-let static_geom2d_lib* = src.static_geom2d_lib
-let static_osgui_lib* = src.static_osgui_lib
-let static_osapp_lib* = src.static_osapp_lib
-let static_gui_lib* = src.static_gui_lib
+let all_libs* = src.all_libs # an aggregate incorporating either nappgui_lib or all others
 
 # build and use the nrc utility application of nappgui
 let nrc* = src.nrc
 
-let all_libs : Copy {
+let copy_libs : Copy {
 	.use_deps += [ `shared_lib `static_lib  ]
 	.outputs += ./lib/{{source_file_part}}
-	if target_os != `win32 {
-		# the def files are not complete yet; non-public API is missing
+	if !HAVE_SHARED {
 		.deps += [
-			shared_core_lib
-			shared_sewer_lib
-			shared_osbs_lib
-			shared_draw2d_lib
-			shared_geom2d_lib
-			shared_osgui_lib
-			shared_osapp_lib
-			shared_gui_lib
-			]
+			core_lib
+			sewer_lib
+			osbs_lib
+			draw2d_lib
+			geom2d_lib
+			osgui_lib
+			osapp_lib
+			gui_lib
+		]
+		.deps += nappgui_lib
+	}else{
+		.deps += all_libs
 	}
-	.deps += [
-		nrc
-
-		shared_all_lib
-		
-		static_core_lib
-		static_sewer_lib
-		static_osbs_lib
-		static_draw2d_lib
-		static_geom2d_lib
-		static_osgui_lib
-		static_osapp_lib
-		static_gui_lib
-		static_all_lib
-	]
 }
 
 # this is the default build which builds everything
 let demos ! : Copy {
 	.use_deps += `executable;
-	.deps += [ all_libs src.demos ]
+	.deps += [ copy_libs src.demos ]
 	.outputs += ./bin/{{source_file_part}}
 }
 

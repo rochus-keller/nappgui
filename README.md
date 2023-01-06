@@ -23,21 +23,21 @@ Then...
 
 6) `gcc *.c -O2 -lm -O2 -o lua`
 
-7) `./lua build.lua`
+7) `./lua build.lua` (optionally add `-P HAVE_SHARED` or `-P HAVE_ALLINONE`)
 
 ...with GCC & CLANG on Windows:
 
 6) `gcc *.c -O2 -lm -O2 -o lua.exe`
 
-7) `lua build.lua`
+7) `lua build.lua` (optionally add `-P HAVE_SHARED` or `-P HAVE_ALLINONE`)
 
 ...with MSVC on Windows:
 
 6) `cl /O2 /MD /Fe:lua.exe *.c`
 
-7) `lua build.lua`
+7) `lua build.lua` (optionally add `-P HAVE_SHARED` or `-P HAVE_ALLINONE`)
 
-8) Wait until the build finishes (half a minute); the built libraries are in the output/src subdirectory
+8) Wait until the build finishes (half a minute); the built libraries are in the output/lib subdirectory, the executables in output/bin.
 
 ## Quick start in Windows
 

@@ -1,11 +1,19 @@
 # see https://github.com/rochus-keller/BUSY/
 
+var config - : Config {
+	if ^HAVE_SHARED {
+		.defines += "NAPPGUI_SHARED_LIB"
+		if !^HAVE_ALLINONE {
+			.defines += [ "OSGUI_IMPORT" "GUI_IMPORT" ]
+		}
+	}
+}
 
 let sources * : SourceSet {
 	.sources = [
     	./osapp.c
 	]
-	.configs += [ ^main_config ]
+	.configs += [ ^main_config config ]
 	.include_dirs += .
 	
 	if target_os == `linux {

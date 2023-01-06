@@ -11,7 +11,7 @@ let sources * : SourceSet {
 		./sinfo.c
 		./dlib.c
 	]
-	.configs += ^main_config
+	.configs += [ ^main_config ^config ]
 }
 
 
